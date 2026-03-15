@@ -1,0 +1,45 @@
+services:
+  traefik:
+    image: traefik:v3.0
+    container_name: bookstore-traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=kids-bookstore-backend_bookstore-network"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080" # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - bookstore-network
+
+  backend:
+    build: .
+    container_name: bookstore-backend
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bookstoredb-dev.c1ygoy8q4aqb.ap-southeast-2.rds.amazonaws.com:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: PostgresPassword
+      # Update APP_API_URL to your EC2 Public IP or Custom Domain later
+      APP_API_URL: http://localhost:8081/api 
+    volumes:
+      - uploads_data:/uploads
+    networks:
+      - bookstore-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=8080"
+
+networks:
+  bookstore-network:
+    driver: bridge
+
+volumes:
+  uploads_data:
