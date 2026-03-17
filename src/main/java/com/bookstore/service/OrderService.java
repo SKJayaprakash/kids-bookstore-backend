@@ -92,7 +92,7 @@ public class OrderService {
     public List<Order> getOrdersForCurrentShop() {
         Shop currentShop = com.bookstore.context.ShopContext.getCurrentShop();
         if (currentShop == null) {
-            throw new RuntimeException("Shop context not found");
+            return List.of(); // Return empty list if no shop context
         }
         return orderRepository.findByShopId(currentShop.getId());
     }
@@ -108,7 +108,7 @@ public class OrderService {
     public Map<String, Object> getShopStats() {
         Shop currentShop = com.bookstore.context.ShopContext.getCurrentShop();
         if (currentShop == null) {
-            throw new RuntimeException("Shop context not found");
+            return Map.of("totalBooks", 0L, "totalOrders", 0L, "pendingOrders", 0L, "totalCustomers", 0L);
         }
 
         Long shopId = currentShop.getId();
@@ -122,8 +122,9 @@ public class OrderService {
                         || o.getStatus() == OrderStatus.ACCEPTED)
                 .count();
 
-        // Calculate unique customers from orders
+        // Calculate unique customers from orders (skip guest orders with null user)
         long totalCustomers = orders.stream()
+                .filter(o -> o.getUser() != null)
                 .map(o -> o.getUser().getId())
                 .distinct()
                 .count();
