@@ -20,7 +20,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> createOrder(Authentication authentication,
             @RequestBody com.bookstore.dto.OrderRequest request) {
-        String email = authentication.getName();
+        String email = (authentication != null) ? authentication.getName() : "guest@example.com";
         return ResponseEntity.ok(orderService.createOrder(email, request));
     }
 

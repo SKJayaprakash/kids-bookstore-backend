@@ -40,9 +40,13 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "shop_id")
     @com.fasterxml.jackson.annotation.JsonIgnore
-    private Shop shop; // For CUSTOMER and SHOP_OWNER roles
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
+    private Shop shop; 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @com.fasterxml.jackson.annotation.JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private List<Address> addresses = new ArrayList<>();
 }

@@ -22,6 +22,8 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @com.fasterxml.jackson.annotation.JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private User user;
 
     @jakarta.persistence.Transient
@@ -31,6 +33,8 @@ public class Order {
     }
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private List<OrderItem> items = new ArrayList<>();
 
     private BigDecimal totalPrice;
@@ -40,10 +44,14 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "address_id")
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private Address shippingAddress;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private Shop shop;
 
     private LocalDateTime createdAt;

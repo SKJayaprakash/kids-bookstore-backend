@@ -34,11 +34,15 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private Shop shop;
 
     @ElementCollection
     private List<String> additionalImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private List<Review> reviews = new ArrayList<>();
 }

@@ -30,11 +30,12 @@ public class OrderService {
 
     @Transactional
     public Order createOrder(String email, com.bookstore.dto.OrderRequest request) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmail(email).orElse(null);
 
         Order order = new Order();
-        order.setUser(user);
+        if (user != null) {
+            order.setUser(user);
+        }
         order.setStatus(OrderStatus.CREATED);
 
         // Associate with current shop if present
@@ -47,7 +48,9 @@ public class OrderService {
                 address = addressRepository.findById(address.getId())
                         .orElseThrow(() -> new RuntimeException("Address not found"));
             } else {
-                address.setUser(user);
+                if (user != null) {
+                    address.setUser(user);
+                }
                 address = addressRepository.save(address);
             }
             order.setShippingAddress(address);

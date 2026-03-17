@@ -50,18 +50,26 @@ public class Shop {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner; // Shop owner (SHOP_OWNER role)
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
+    private User owner; 
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     @com.fasterxml.jackson.annotation.JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private List<Book> books = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     @com.fasterxml.jackson.annotation.JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private List<Order> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     @com.fasterxml.jackson.annotation.JsonIgnore
+    @lombok.ToString.Exclude
+    @lombok.EqualsAndHashCode.Exclude
     private List<User> customers = new ArrayList<>();
 
     private LocalDateTime createdAt;
