@@ -1,6 +1,5 @@
 package com.bookstore.service;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Shop;
 import com.bookstore.repository.ShopRepository;
@@ -32,11 +31,6 @@ public class InstagramService {
     @Value("${app.public.url}")
     private String publicApiUrl;
 
-    @Autowired
-    private AmazonS3 s3Client;
-
-    @Value("${aws.s3.bucket-name}")
-    private String bucketName;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -290,22 +284,23 @@ public class InstagramService {
                 ? customCaption 
                 : buildCaption(book, shop);
 
-        // Generate a pre-signed S3 URL for Meta to fetch the image.
-        // Meta requires HTTPS and standard ports — a pre-signed URL satisfies both.
+        // Transform S3 URL to Proxy URL. 
+        // We use our own path-based proxy because Meta strips query parameters from URLs, 
+        // which breaks AWS pre-signed URLs. The path-based proxy avoids this issue.
         String imageUrl = book.getImageUrl();
         if (imageUrl != null && imageUrl.contains("amazonaws.com")) {
             try {
                 String s3Key = imageUrl.substring(imageUrl.indexOf(".com/") + 5);
                 
-                // Generate a pre-signed URL valid for 1 hour
-                java.util.Date expiration = new java.util.Date(System.currentTimeMillis() + 3600 * 1000);
-                java.net.URL presignedUrl = s3Client.generatePresignedUrl(bucketName, s3Key, expiration);
-                imageUrl = presignedUrl.toString();
+                String baseUrl = publicApiUrl;
+                if (!baseUrl.endsWith("/api")) {
+                    baseUrl = baseUrl.endsWith("/") ? baseUrl + "api" : baseUrl + "/api";
+                }
                 
-                logger.info("DIAG - Generated pre-signed S3 URL for Meta (key: {})", s3Key);
+                imageUrl = baseUrl + "/public/images/s3/" + s3Key;
+                logger.info("DIAG - Image URL sent to Meta via Proxy: {}", imageUrl);
             } catch (Exception e) {
-                logger.error("DIAG ERROR - Failed to generate pre-signed URL: {}. Falling back to original URL.", e.getMessage());
-                // Keep the original imageUrl as fallback
+                logger.error("DIAG ERROR - Failed to generate proxy URL: {}. Falling back to original URL.", e.getMessage());
             }
         }
 
