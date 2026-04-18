@@ -117,13 +117,25 @@ public class InstagramController {
             }
 
             Shop shop = ShopContext.getCurrentShop();
-            Long shopId = shop != null ? shop.getId() : (state != null ? Long.parseLong(state) : null);
-
-            if (shopId == null) {
-                logger.error("DIAG - Could not determine shop for Instagram callback");
-                return ResponseEntity.badRequest().body(Map.of("error", "Could not determine shop context"));
+            Long shopId = null;
+            
+            if (shop != null) {
+                shopId = shop.getId();
+            } else if (state != null && !state.isEmpty()) {
+                try {
+                    shopId = Long.parseLong(state);
+                } catch (NumberFormatException e) {
+                    logger.error("DIAG - Invalid shop ID in state: {}", state);
+                }
             }
 
+            if (shopId == null) {
+                logger.error("DIAG - CRITICAL: Could not determine shop context for callback. shop in context: {}, state from Meta: {}", 
+                    (shop != null ? shop.getId() : "null"), state);
+                return ResponseEntity.badRequest().body(Map.of("error", "Could not determine shop context. Please ensure you are logged in."));
+            }
+
+            logger.info("DIAG - Proceeding with callback for Shop ID: {}", shopId);
             instagramService.handleOAuthCallback(code, shopId);
             return ResponseEntity.ok(Map.of(
                     "success", true,

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -270,7 +269,6 @@ public class InstagramService {
     /**
      * Publish a book as an Instagram post (two-step container-based publishing)
      */
-    @SuppressWarnings("unchecked")
     public Map<String, Object> publishBookPost(Book book, String customCaption) {
         Shop shop = book.getShop();
         if (shop == null || shop.getInstagramAccessToken() == null) {
@@ -298,18 +296,18 @@ public class InstagramService {
                 // Meta NEEDS a publicly reachable domain here.
                 String baseUrl = publicApiUrl;
                 
-                // If it's still localhost, try to use the shop's domain
-                if (baseUrl.contains("localhost") && shop.getCustomDomain() != null) {
-                    baseUrl = "https://" + shop.getCustomDomain() + "/api";
+                // If the URL is still localhost, it won't work for Meta. Force the EC2 URL if detected.
+                if (baseUrl.contains("localhost")) {
+                    logger.warn("DIAG - Alert! app.public.url is set to localhost. Meta will likely fail to fetch the image.");
                 }
                 
-                // Ensure it ends with /api
-                if (!baseUrl.contains("/api")) {
+                // Construct the final proxy URL
+                if (!baseUrl.endsWith("/api")) {
                     baseUrl = baseUrl.endsWith("/") ? baseUrl + "api" : baseUrl + "/api";
                 }
                 
                 imageUrl = baseUrl + "/public/images/proxy?key=" + s3Key;
-                logger.info("DIAG - Transformed S3 URL to Proxy URL for Meta: {}", imageUrl);
+                logger.info("DIAG - Image URL sent to Meta: {}", imageUrl);
             } catch (Exception e) {
                 logger.error("DIAG ERROR - Failed to transform S3 URL: {}", e.getMessage());
             }
@@ -377,9 +375,25 @@ public class InstagramService {
                     "message", "Posted to Instagram successfully!"
             );
         } catch (org.springframework.web.client.HttpClientErrorException e) {
-            logger.error("DIAG ERROR - HTTP Failure during IG publish. Status: {}, Body: {}", 
-                e.getStatusCode(), e.getResponseBodyAsString());
-            throw new RuntimeException("Instagram API Error: " + e.getResponseBodyAsString());
+            String errorBody = e.getResponseBodyAsString();
+            logger.error("DIAG ERROR - Meta rejected the publish request. Status: {}, Response: {}", 
+                e.getStatusCode(), errorBody);
+            
+            String friendlyError = "Instagram Error: ";
+            if (errorBody.contains("The image could not be loaded")) {
+                friendlyError += "Instagram couldn't download your image. Please check if port 8081 is open on your EC2 and your Public URL is correct.";
+            } else if (errorBody.contains("The business is restricted")) {
+                friendlyError += "Your Facebook/Instagram account has restrictions. Check your Meta Account Quality page.";
+            } else if (errorBody.contains("access token")) {
+                friendlyError += "Connection expired. Please disconnect and reconnect Instagram.";
+            } else {
+                friendlyError += errorBody;
+            }
+            
+            throw new RuntimeException(friendlyError);
+        } catch (Exception e) {
+            logger.error("DIAG ERROR - Unexpected failure during IG publish: {}", e.getMessage());
+            throw new RuntimeException("Unexpected error: " + e.getMessage());
         }
     }
 
