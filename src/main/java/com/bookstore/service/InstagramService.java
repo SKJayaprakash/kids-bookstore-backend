@@ -288,17 +288,20 @@ public class InstagramService {
         // We cannot use our EC2 proxy because it is HTTP (port 8081), and Meta strictly requires HTTPS.
         // We cannot use pre-signed URLs because Meta mangles the signature query parameters.
         // Since FileStorageService uploads with PublicRead ACL, the direct HTTPS URL should work perfectly!
-        // We use an incredibly robust global image processing CDN (weserv.nl)
-        // to guarantee three strict Instagram API requirements:
-        // 1. Format MUST be JPEG (&output=jpg)
-        // 2. Width MUST be <= 1920px (&w=1080)
-        // 3. Reliable HTTPS delivery that Meta scraper trusts
+        // Convert S3 URL to Path-Style to bypass Meta's strict SSL/DNS wildcard limitations.
+        // Virtual-Hosted Style (Blocked): https://bucket.s3.region.amazonaws.com/key
+        // Path Style (Allowed): https://s3.region.amazonaws.com/bucket/key
         String imageUrl = book.getImageUrl();
-        if (imageUrl != null && imageUrl.startsWith("https://")) {
-            // Remove the 'https://' prefix for Weserv
-            String urlStripped = imageUrl.substring(8);
-            imageUrl = "https://images.weserv.nl/?url=" + urlStripped + "&w=1080&output=jpg";
-            logger.info("DIAG - Transformed Image URL for Meta (Resized/JPEG): {}", imageUrl);
+        if (imageUrl != null && imageUrl.contains(".s3.") && imageUrl.startsWith("https://")) {
+            try {
+                String withoutProtocol = imageUrl.substring(8);
+                String bucketName = withoutProtocol.substring(0, withoutProtocol.indexOf(".s3."));
+                String rest = withoutProtocol.substring(withoutProtocol.indexOf(".s3.") + 1);
+                imageUrl = "https://" + rest.replaceFirst("/", "/" + bucketName + "/");
+                logger.info("DIAG - Transformed Image URL for Meta (S3 Path-Style): {}", imageUrl);
+            } catch (Exception e) {
+                logger.error("DIAG ERROR - Failed to convert S3 URL to Path-Style: {}", e.getMessage());
+            }
         }
 
         if (imageUrl == null || imageUrl.isEmpty()) {
