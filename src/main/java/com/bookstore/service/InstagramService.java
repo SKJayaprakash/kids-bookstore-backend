@@ -288,18 +288,17 @@ public class InstagramService {
         // We cannot use our EC2 proxy because it is HTTP (port 8081), and Meta strictly requires HTTPS.
         // We cannot use pre-signed URLs because Meta mangles the signature query parameters.
         // Since FileStorageService uploads with PublicRead ACL, the direct HTTPS URL should work perfectly!
-        // The Unsplash test proved that the Instagram account permissions and the application/x-www-form-urlencoded
-        // request format are completely PERFECT. The ONLY remaining issue is how Meta's SSL client scrapes AWS S3.
-        // We will format the S3 URL using the hyphenated virtual-hosted style, which avoids SNI wildcard certificate
-        // issues that frequently block Facebook's scraper.
-        // Format: https://bucket-name.s3-region.amazonaws.com/key
+        // Convert the S3 URL to use AWS Dualstack (IPv4 + IPv6).
+        // Facebook's scraping infrastructure is heavily IPv6-first and frequently fails silently
+        // on standard AWS S3 IPv4 endpoints in certain regions.
+        // Format: https://bucket-name.s3.dualstack.region.amazonaws.com/key
         String imageUrl = book.getImageUrl();
         if (imageUrl != null && imageUrl.contains(".s3.") && imageUrl.startsWith("https://")) {
             try {
-                imageUrl = imageUrl.replaceFirst("\\.s3\\.", ".s3-");
-                logger.info("DIAG - Transformed Image URL for Meta (Hyphen Format): {}", imageUrl);
+                imageUrl = imageUrl.replaceFirst("\\.s3\\.", ".s3.dualstack.");
+                logger.info("DIAG - Transformed Image URL for Meta (Dualstack Protocol): {}", imageUrl);
             } catch (Exception e) {
-                logger.error("DIAG ERROR - Failed to format S3 URL: {}", e.getMessage());
+                logger.error("DIAG ERROR - Failed to format S3 Dualstack URL: {}", e.getMessage());
             }
         }
 
