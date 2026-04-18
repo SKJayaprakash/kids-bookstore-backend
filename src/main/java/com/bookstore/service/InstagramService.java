@@ -288,28 +288,20 @@ public class InstagramService {
         // We cannot use our EC2 proxy because it is HTTP (port 8081), and Meta strictly requires HTTPS.
         // We cannot use pre-signed URLs because Meta mangles the signature query parameters.
         // Since FileStorageService uploads with PublicRead ACL, the direct HTTPS URL should work perfectly!
-        // Convert S3 URL to Path-Style to bypass Meta's strict SSL/DNS wildcard limitations.
-        // Virtual-Hosted Style (Blocked): https://bucket.s3.region.amazonaws.com/key
-        // Path Style (Allowed): https://s3.region.amazonaws.com/bucket/key
+        // The Unsplash test proved that the Instagram account permissions and the application/x-www-form-urlencoded
+        // request format are completely PERFECT. The ONLY remaining issue is how Meta's SSL client scrapes AWS S3.
+        // We will format the S3 URL using the hyphenated virtual-hosted style, which avoids SNI wildcard certificate
+        // issues that frequently block Facebook's scraper.
+        // Format: https://bucket-name.s3-region.amazonaws.com/key
         String imageUrl = book.getImageUrl();
         if (imageUrl != null && imageUrl.contains(".s3.") && imageUrl.startsWith("https://")) {
             try {
-                String withoutProtocol = imageUrl.substring(8);
-                String bucketName = withoutProtocol.substring(0, withoutProtocol.indexOf(".s3."));
-                String rest = withoutProtocol.substring(withoutProtocol.indexOf(".s3.") + 1);
-                imageUrl = "https://" + rest.replaceFirst("/", "/" + bucketName + "/");
-                logger.info("DIAG - Transformed Image URL for Meta (S3 Path-Style): {}", imageUrl);
+                imageUrl = imageUrl.replaceFirst("\\.s3\\.", ".s3-");
+                logger.info("DIAG - Transformed Image URL for Meta (Hyphen Format): {}", imageUrl);
             } catch (Exception e) {
-                logger.error("DIAG ERROR - Failed to convert S3 URL to Path-Style: {}", e.getMessage());
+                logger.error("DIAG ERROR - Failed to format S3 URL: {}", e.getMessage());
             }
         }
-
-        // ==========================================
-        // DIAGNOSTIC OVERRIDE (TEMPORARY)
-        // Hardcode a known-good image URL to test if the issue is S3 or Meta account permissions.
-        imageUrl = "https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=1080&q=80";
-        logger.warn("DIAG - OVERRIDING IMAGE WITH UNSPLASH URL FOR TESTING: {}", imageUrl);
-        // ==========================================
 
         if (imageUrl == null || imageUrl.isEmpty()) {
             throw new RuntimeException("Book must have an image to post to Instagram");
