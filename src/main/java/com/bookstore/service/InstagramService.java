@@ -304,6 +304,13 @@ public class InstagramService {
             }
         }
 
+        // ==========================================
+        // DIAGNOSTIC OVERRIDE (TEMPORARY)
+        // Hardcode a known-good image URL to test if the issue is S3 or Meta account permissions.
+        imageUrl = "https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=1080&q=80";
+        logger.warn("DIAG - OVERRIDING IMAGE WITH UNSPLASH URL FOR TESTING: {}", imageUrl);
+        // ==========================================
+
         if (imageUrl == null || imageUrl.isEmpty()) {
             throw new RuntimeException("Book must have an image to post to Instagram");
         }
