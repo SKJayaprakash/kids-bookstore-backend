@@ -284,25 +284,12 @@ public class InstagramService {
                 ? customCaption 
                 : buildCaption(book, shop);
 
-        // Transform S3 URL to Proxy URL. 
-        // We use our own path-based proxy because Meta strips query parameters from URLs, 
-        // which breaks AWS pre-signed URLs. The path-based proxy avoids this issue.
+        // Give Meta the direct S3 HTTPS URL.
+        // We cannot use our EC2 proxy because it is HTTP (port 8081), and Meta strictly requires HTTPS.
+        // We cannot use pre-signed URLs because Meta mangles the signature query parameters.
+        // Since FileStorageService uploads with PublicRead ACL, the direct HTTPS URL should work perfectly!
         String imageUrl = book.getImageUrl();
-        if (imageUrl != null && imageUrl.contains("amazonaws.com")) {
-            try {
-                String s3Key = imageUrl.substring(imageUrl.indexOf(".com/") + 5);
-                
-                String baseUrl = publicApiUrl;
-                if (!baseUrl.endsWith("/api")) {
-                    baseUrl = baseUrl.endsWith("/") ? baseUrl + "api" : baseUrl + "/api";
-                }
-                
-                imageUrl = baseUrl + "/public/images/s3/" + s3Key;
-                logger.info("DIAG - Image URL sent to Meta via Proxy: {}", imageUrl);
-            } catch (Exception e) {
-                logger.error("DIAG ERROR - Failed to generate proxy URL: {}. Falling back to original URL.", e.getMessage());
-            }
-        }
+        logger.info("DIAG - Image URL sent to Meta (Direct S3): {}", imageUrl);
 
         if (imageUrl == null || imageUrl.isEmpty()) {
             throw new RuntimeException("Book must have an image to post to Instagram");
