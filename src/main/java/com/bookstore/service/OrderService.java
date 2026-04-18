@@ -30,6 +30,9 @@ public class OrderService {
 
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private WhatsAppService whatsappService;
 
     @Transactional
     public Order createOrder(String email, com.bookstore.dto.OrderRequest request) {
@@ -117,6 +120,7 @@ public class OrderService {
         
         if (savedOrder.getStatus() == OrderStatus.PAYMENT_COMPLETED) {
             emailService.sendOrderReceipt(savedOrder);
+            whatsappService.sendOrderNotification(savedOrder);
         }
         
         return savedOrder;

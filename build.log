@@ -1,0 +1,633 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.bookstore:backend >------------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 4 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ backend ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 66 source files with javac [debug release 17] to target/classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/Order.java:[32,35] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.bookstore.entity.User
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[30,21] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[30,48] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[34,44] cannot find symbol
+  symbol:   method getBooks()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[39,74] cannot find symbol
+  symbol:   method getName()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[39,116] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[40,52] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java:[38,89] cannot find symbol
+  symbol:   method getId()
+  location: variable order of type com.bookstore.entity.Order
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java:[38,34] cannot find symbol
+  symbol:   method getUser()
+  location: variable order of type com.bookstore.entity.Order
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java:[51,33] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.bookstore.entity.User
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[101,35] cannot find symbol
+  symbol:   method getShopNumber()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[102,29] cannot find symbol
+  symbol:   method getSlug()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[103,49] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[104,29] cannot find symbol
+  symbol:   method getName()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[105,36] cannot find symbol
+  symbol:   method getDescription()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[106,32] cannot find symbol
+  symbol:   method getAddress()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[107,36] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[108,30] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[109,49] cannot find symbol
+  symbol:   method getPrimaryColor()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[110,44] cannot find symbol
+  symbol:   method getLogoUrl()
+  location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[123,29] cannot find symbol
+  symbol:   method getName()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[124,29] cannot find symbol
+  symbol:   method getSlug()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[125,49] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[126,36] cannot find symbol
+  symbol:   method getDescription()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[127,32] cannot find symbol
+  symbol:   method getAddress()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[128,36] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[129,30] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[130,49] cannot find symbol
+  symbol:   method getPrimaryColor()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[131,44] cannot find symbol
+  symbol:   method getLogoUrl()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[132,20] cannot find symbol
+  symbol:   method getActive()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[133,35] cannot find symbol
+  symbol:   method getActive()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[173,17] cannot find symbol
+  symbol:   method getId()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[174,20] cannot find symbol
+  symbol:   method getName()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[175,32] cannot find symbol
+  symbol:   method getDescription()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[176,32] cannot find symbol
+  symbol:   method getPrimaryColor()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[177,32] cannot find symbol
+  symbol:   method getLogoUrl()
+  location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[194,40] cannot find symbol
+  symbol:   method getContainerStatus()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[194,76] cannot find symbol
+  symbol:   method getContainerStatus()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[195,38] cannot find symbol
+  symbol:   method getContainerPort()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[195,72] cannot find symbol
+  symbol:   method getContainerPort()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[196,36] cannot find symbol
+  symbol:   method getContainerId()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[196,68] cannot find symbol
+  symbol:   method getContainerId()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[201,28] cannot find symbol
+  symbol:   method getId()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[202,36] cannot find symbol
+  symbol:   method getShopNumber()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[203,30] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[204,38] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[205,30] cannot find symbol
+  symbol:   method getName()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[206,37] cannot find symbol
+  symbol:   method getDescription()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[207,33] cannot find symbol
+  symbol:   method getAddress()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[208,37] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[209,31] cannot find symbol
+  symbol:   method getEmail()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[210,32] cannot find symbol
+  symbol:   method isActive()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[211,38] cannot find symbol
+  symbol:   method getPrimaryColor()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[212,33] cannot find symbol
+  symbol:   method getLogoUrl()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[213,41] cannot find symbol
+  symbol:   method getContainerStatus()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[214,39] cannot find symbol
+  symbol:   method getContainerPort()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[216,17] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[217,40] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[218,39] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[218,78] cannot find symbol
+  symbol:   method getOwner()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[46,51] cannot find symbol
+  symbol:   method getShopNumber()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[47,77] cannot find symbol
+  symbol:   method getShopNumber()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[51,17] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[51,43] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[52,72] cannot find symbol
+  symbol:   method getName()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[56,51] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[58,97] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[62,45] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[63,70] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[67,17] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[67,52] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[68,57] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[69,83] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[71,57] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[72,83] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[90,33] cannot find symbol
+  symbol:   method getName()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[91,40] cannot find symbol
+  symbol:   method getDescription()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[92,36] cannot find symbol
+  symbol:   method getAddress()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[93,40] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[94,34] cannot find symbol
+  symbol:   method getEmail()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[95,35] cannot find symbol
+  symbol:   method isActive()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[98,24] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[98,58] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[98,80] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[99,62] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[100,81] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[102,56] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[103,81] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[105,37] cannot find symbol
+  symbol:   method getSlug()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[109,24] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[109,66] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[109,96] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[110,64] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[111,90] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[113,64] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[114,90] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[116,45] cannot find symbol
+  symbol:   method getCustomDomain()
+  location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[125,13] cannot find symbol
+  symbol:   method setActive(boolean)
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[128,17] cannot find symbol
+  symbol:   method getContainerId()
+  location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[128,67] cannot find symbol
+  symbol:   method getContainerStatus()
+  location: variable shop of type com.bookstore.entity.Shop
+[INFO] 100 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.268 s
+[INFO] Finished at: 2026-04-19T01:38:13+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project backend: Compilation failure: Compilation failure: 
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/Order.java:[32,35] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.bookstore.entity.User
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[30,21] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[30,48] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[34,44] cannot find symbol
+[ERROR]   symbol:   method getBooks()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[39,74] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[39,116] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/task/StockMonitorTask.java:[40,52] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java:[38,89] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable order of type com.bookstore.entity.Order
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java:[38,34] cannot find symbol
+[ERROR]   symbol:   method getUser()
+[ERROR]   location: variable order of type com.bookstore.entity.Order
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java:[51,33] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.bookstore.entity.User
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[101,35] cannot find symbol
+[ERROR]   symbol:   method getShopNumber()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[102,29] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[103,49] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[104,29] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[105,36] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[106,32] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[107,36] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[108,30] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[109,49] cannot find symbol
+[ERROR]   symbol:   method getPrimaryColor()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[110,44] cannot find symbol
+[ERROR]   symbol:   method getLogoUrl()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.CreateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[123,29] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[124,29] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[125,49] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[126,36] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[127,32] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[128,36] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[129,30] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[130,49] cannot find symbol
+[ERROR]   symbol:   method getPrimaryColor()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[131,44] cannot find symbol
+[ERROR]   symbol:   method getLogoUrl()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[132,20] cannot find symbol
+[ERROR]   symbol:   method getActive()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[133,35] cannot find symbol
+[ERROR]   symbol:   method getActive()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[173,17] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[174,20] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[175,32] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[176,32] cannot find symbol
+[ERROR]   symbol:   method getPrimaryColor()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[177,32] cannot find symbol
+[ERROR]   symbol:   method getLogoUrl()
+[ERROR]   location: variable request of type com.bookstore.dto.ShopDtos.UpdateShopRequest
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[194,40] cannot find symbol
+[ERROR]   symbol:   method getContainerStatus()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[194,76] cannot find symbol
+[ERROR]   symbol:   method getContainerStatus()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[195,38] cannot find symbol
+[ERROR]   symbol:   method getContainerPort()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[195,72] cannot find symbol
+[ERROR]   symbol:   method getContainerPort()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[196,36] cannot find symbol
+[ERROR]   symbol:   method getContainerId()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[196,68] cannot find symbol
+[ERROR]   symbol:   method getContainerId()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[201,28] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[202,36] cannot find symbol
+[ERROR]   symbol:   method getShopNumber()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[203,30] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[204,38] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[205,30] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[206,37] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[207,33] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[208,37] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[209,31] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[210,32] cannot find symbol
+[ERROR]   symbol:   method isActive()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[211,38] cannot find symbol
+[ERROR]   symbol:   method getPrimaryColor()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[212,33] cannot find symbol
+[ERROR]   symbol:   method getLogoUrl()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[213,41] cannot find symbol
+[ERROR]   symbol:   method getContainerStatus()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[214,39] cannot find symbol
+[ERROR]   symbol:   method getContainerPort()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[216,17] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[217,40] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[218,39] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/ShopController.java:[218,78] cannot find symbol
+[ERROR]   symbol:   method getOwner()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[46,51] cannot find symbol
+[ERROR]   symbol:   method getShopNumber()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[47,77] cannot find symbol
+[ERROR]   symbol:   method getShopNumber()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[51,17] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[51,43] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[52,72] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[56,51] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[58,97] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[62,45] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[63,70] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[67,17] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[67,52] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[68,57] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[69,83] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[71,57] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[72,83] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[90,33] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[91,40] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[92,36] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[93,40] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[94,34] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[95,35] cannot find symbol
+[ERROR]   symbol:   method isActive()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[98,24] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[98,58] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[98,80] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[99,62] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[100,81] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[102,56] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[103,81] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[105,37] cannot find symbol
+[ERROR]   symbol:   method getSlug()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[109,24] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[109,66] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[109,96] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[110,64] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[111,90] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[113,64] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[114,90] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[116,45] cannot find symbol
+[ERROR]   symbol:   method getCustomDomain()
+[ERROR]   location: variable shopDetails of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[125,13] cannot find symbol
+[ERROR]   symbol:   method setActive(boolean)
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[128,17] cannot find symbol
+[ERROR]   symbol:   method getContainerId()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java:[128,67] cannot find symbol
+[ERROR]   symbol:   method getContainerStatus()
+[ERROR]   location: variable shop of type com.bookstore.entity.Shop
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

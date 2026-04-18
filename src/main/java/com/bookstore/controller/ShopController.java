@@ -174,7 +174,10 @@ public class ShopController {
             request.getName(),
             blankToNull(request.getDescription()),
             blankToNull(request.getPrimaryColor()),
-            blankToNull(request.getLogoUrl())
+            blankToNull(request.getLogoUrl()),
+            blankToNull(request.getWhatsappAccessToken()),
+            blankToNull(request.getWhatsappPhoneNumberId()),
+            blankToNull(request.getWhatsappOrderTemplateName())
         );
         return ResponseEntity.ok(toShopResponse(updated));
     }
@@ -212,6 +215,10 @@ public class ShopController {
         response.setLogoUrl(shop.getLogoUrl());
         response.setContainerStatus(shop.getContainerStatus());
         response.setContainerPort(shop.getContainerPort());
+        
+        response.setWhatsappAccessToken(shop.getWhatsappAccessToken());
+        response.setWhatsappPhoneNumberId(shop.getWhatsappPhoneNumberId());
+        response.setWhatsappOrderTemplateName(shop.getWhatsappOrderTemplateName());
 
         if (shop.getOwner() != null) {
             response.setOwnerEmail(shop.getOwner().getEmail());

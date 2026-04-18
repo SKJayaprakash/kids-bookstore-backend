@@ -12,6 +12,7 @@
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopOwnerService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/CartController.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/AddressController.java
+/Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/WhatsAppService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/Book.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/repository/ReviewRepository.java
@@ -31,6 +32,7 @@
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ReviewService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/OrderService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/repository/BookRepository.java
+/Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/security/RequestLoggingFilter.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/InstagramService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/config/DataSeeder.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/Cart.java
@@ -39,6 +41,7 @@
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/repository/WishlistRepository.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/OrderItem.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/WishlistController.java
+/Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/PublicController.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/EmailService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/security/UserDetailsServiceImpl.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/User.java
@@ -51,6 +54,7 @@
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/entity/Review.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/ShopDetectionService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/FileStorageService.java
+/Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/WhatsAppController.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/service/AddressService.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/repository/UserRepository.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/dto/ShopDtos.java
@@ -58,6 +62,7 @@
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/dto/OrderRequest.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/security/SecurityConfig.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/controller/InstagramController.java
+/Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/config/RestConfig.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/BookstoreApplication.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/dto/AuthDtos.java
 /Users/jayaprakash/diascent/kidsstore/kids-bookstore-backend/src/main/java/com/bookstore/dto/ReviewDto.java

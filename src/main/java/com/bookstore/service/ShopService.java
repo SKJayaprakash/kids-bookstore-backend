@@ -147,7 +147,8 @@ public class ShopService {
     }
 
     @Transactional
-    public Shop updateShopOwnerSettings(Long id, String name, String description, String primaryColor, String logoUrl) {
+    public Shop updateShopOwnerSettings(Long id, String name, String description, String primaryColor, String logoUrl,
+                                        String whatsappAccessToken, String whatsappPhoneNumberId, String whatsappOrderTemplateName) {
         Shop shop = getShopById(id);
         if (name != null && !name.trim().isEmpty()) {
             shop.setName(name.trim());
@@ -155,6 +156,13 @@ public class ShopService {
         shop.setDescription(description);
         shop.setPrimaryColor(primaryColor);
         shop.setLogoUrl(logoUrl);
+        
+        shop.setWhatsappAccessToken(whatsappAccessToken);
+        shop.setWhatsappPhoneNumberId(whatsappPhoneNumberId);
+        if (whatsappOrderTemplateName != null && !whatsappOrderTemplateName.trim().isEmpty()) {
+            shop.setWhatsappOrderTemplateName(whatsappOrderTemplateName.trim());
+        }
+        
         return shopRepository.save(shop);
     }
 
