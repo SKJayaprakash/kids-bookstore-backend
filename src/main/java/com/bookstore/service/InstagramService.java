@@ -306,7 +306,7 @@ public class InstagramService {
                     baseUrl = baseUrl.endsWith("/") ? baseUrl + "api" : baseUrl + "/api";
                 }
                 
-                imageUrl = baseUrl + "/public/images/proxy?key=" + s3Key;
+                imageUrl = baseUrl + "/public/images/s3/" + s3Key;
                 logger.info("DIAG - Image URL sent to Meta: {}", imageUrl);
             } catch (Exception e) {
                 logger.error("DIAG ERROR - Failed to transform S3 URL: {}", e.getMessage());
