@@ -26,6 +26,7 @@ public class Book {
 
     private BigDecimal price;
     private Integer stock;
+    private Integer lowStockThreshold;
     private String category;
     private String imageUrl;
 

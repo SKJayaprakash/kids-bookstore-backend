@@ -2,7 +2,6 @@ package com.bookstore.controller;
 
 import com.bookstore.entity.Order;
 import com.bookstore.service.OrderService;
-import com.bookstore.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -42,7 +41,9 @@ public class OrderController {
     @PutMapping("/{id}/status")
     public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         String status = payload.get("status");
-        return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
+        String trackingNumber = payload.get("trackingNumber");
+        String carrier = payload.get("carrier");
+        return ResponseEntity.ok(orderService.updateOrderStatus(id, status, trackingNumber, carrier));
     }
 
     @GetMapping("/stats")

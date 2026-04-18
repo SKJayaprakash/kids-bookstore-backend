@@ -14,6 +14,9 @@ public class ShopDetectionService {
     @Autowired
     private ShopRepository shopRepository;
 
+    @org.springframework.beans.factory.annotation.Value("${app.base.domain:localhost}")
+    private String baseDomain;
+
     /**
      * Detects shop from HTTP request using multiple strategies:
      * 1. Custom domain (from Host header)
@@ -21,7 +24,7 @@ public class ShopDetectionService {
      * 3. Fallback to shopNumber parameter (deprecated, for backward compatibility)
      */
     public Shop detectShopFromRequest(HttpServletRequest request) {
-        // Strategy 1: Try X-Shop-Domain header first (most specific)
+        // Strategy 1: Try X-Shop-Domain header (host override)
         String xShopDomain = request.getHeader("X-Shop-Domain");
         if (xShopDomain != null && !xShopDomain.isEmpty()) {
             Shop shop = resolveShopFromDomain(xShopDomain);
@@ -33,25 +36,13 @@ public class ShopDetectionService {
         // Strategy 2: Try custom domain from Host header
         String host = request.getHeader("Host");
         if (host != null) {
-            // Remove port if present
-            host = host.split(":")[0];
             Shop shop = resolveShopFromDomain(host);
             if (shop != null) {
                 return shop;
             }
         }
 
-        // Strategy 3: Try path-based slug (/shop/{slug}/...)
-        String path = request.getRequestURI();
-        String slug = extractSlugFromPath(path);
-        if (slug != null) {
-            Optional<Shop> shop = shopRepository.findBySlug(slug);
-            if (shop.isPresent() && shop.get().isActive()) {
-                return shop.get();
-            }
-        }
-
-        // Strategy 4: Fallback to shopNumber (deprecated)
+        // Strategy 3: Fallback to shopNumber (deprecated)
         String shopNumber = request.getParameter("shopNumber");
         if (shopNumber != null) {
             Optional<Shop> shop = shopRepository.findByShopNumber(shopNumber);
@@ -60,45 +51,45 @@ public class ShopDetectionService {
             }
         }
 
+        // Strategy 4: Port-based discovery from Origin/Referer (Robust Local Dev Fallback)
+        String origin = request.getHeader("Origin");
+        if (origin == null) origin = request.getHeader("Referer");
+        
+        if (origin != null) {
+            // Only use port-based fallback if we are on raw 'localhost' without subdomains
+            boolean isStrictLocalhost = origin.contains("://localhost:") || origin.contains("://localhost/");
+            
+            if (isStrictLocalhost) {
+                // Default to shop1 for the consolidated port 4000 on strict localhost
+                if (origin.contains(":4000")) return shopRepository.findBySlug("shop1").filter(Shop::isActive).orElse(null);
+                
+                // Backward compatibility for old ports
+                if (origin.contains(":5173")) return shopRepository.findBySlug("shop1").filter(Shop::isActive).orElse(null);
+                if (origin.contains(":5174")) return shopRepository.findBySlug("shop2").filter(Shop::isActive).orElse(null);
+            }
+        }
+
         return null;
     }
 
     private Shop resolveShopFromDomain(String domain) {
+        if (domain == null) return null;
+        
+        // Strip port if present
+        domain = domain.split(":")[0];
+
         // 1. Direct custom domain lookup
         Optional<Shop> shop = shopRepository.findByCustomDomain(domain);
         if (shop.isPresent() && shop.get().isActive()) {
             return shop.get();
         }
 
-        // 2. Localhost subdomain lookup (e.g., slug.localhost)
-        if (domain.contains(".localhost")) {
-            String slug = domain.substring(0, domain.indexOf(".localhost"));
+        // 2. Subdomain lookup (e.g. slug.baseDomain)
+        if (domain.endsWith("." + baseDomain)) {
+            String slug = domain.substring(0, domain.lastIndexOf("." + baseDomain));
             return shopRepository.findBySlug(slug)
                     .filter(Shop::isActive)
                     .orElse(null);
-        }
-
-        return null;
-    }
-
-    /**
-     * Extracts slug from path like /shop/{slug}/... or /shop/{slug}
-     * Returns null if path doesn't match pattern
-     */
-    private String extractSlugFromPath(String path) {
-        if (path == null || !path.startsWith("/shop/")) {
-            return null;
-        }
-
-        // Remove /shop/ prefix
-        String remaining = path.substring(6); // "/shop/".length() = 6
-
-        // Extract slug (everything before next / or end of string)
-        int nextSlash = remaining.indexOf('/');
-        if (nextSlash > 0) {
-            return remaining.substring(0, nextSlash);
-        } else if (!remaining.isEmpty()) {
-            return remaining;
         }
 
         return null;

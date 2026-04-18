@@ -55,6 +55,9 @@ public class AuthController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    com.bookstore.service.EmailService emailService;
+
     @Value("${bookstore.google.clientId:YOUR_GOOGLE_CLIENT_ID}")
     private String googleClientId;
 
@@ -87,6 +90,8 @@ public class AuthController {
         user.setShop(shop);
 
         userRepository.save(user);
+        
+        emailService.sendWelcomeEmail(user);
 
         return ResponseEntity.ok("User registered successfully");
     }
@@ -137,7 +142,9 @@ public class AuthController {
                     user.setShop(shop);
                     // generate a random password for OAuth users to satisfy schema constraints
                     user.setPassword(encoder.encode(java.util.UUID.randomUUID().toString()));
+                    user.setPassword(encoder.encode(java.util.UUID.randomUUID().toString()));
                     userRepository.save(user);
+                    emailService.sendWelcomeEmail(user);
                 }
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());

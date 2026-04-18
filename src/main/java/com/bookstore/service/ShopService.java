@@ -147,6 +147,18 @@ public class ShopService {
     }
 
     @Transactional
+    public Shop updateShopOwnerSettings(Long id, String name, String description, String primaryColor, String logoUrl) {
+        Shop shop = getShopById(id);
+        if (name != null && !name.trim().isEmpty()) {
+            shop.setName(name.trim());
+        }
+        shop.setDescription(description);
+        shop.setPrimaryColor(primaryColor);
+        shop.setLogoUrl(logoUrl);
+        return shopRepository.save(shop);
+    }
+
+    @Transactional
     public void assignOwner(Long shopId, User owner) {
         Shop shop = getShopById(shopId);
         shop.setOwner(owner);

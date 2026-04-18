@@ -5,5 +5,6 @@ public enum AgeGroup {
     PRESCHOOL, // 3-5
     EARLY_READERS, // 5-8
     MIDDLE_GRADE, // 9-12
-    YOUNG_ADULT // 13+
+    YOUNG_ADULT, // 13+
+    ALL_AGES // All ages
 }

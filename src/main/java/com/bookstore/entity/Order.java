@@ -55,6 +55,9 @@ public class Order {
     private Shop shop;
 
     private LocalDateTime createdAt;
+    
+    private String trackingNumber;
+    private String carrier;
 
     @PrePersist
     protected void onCreate() {

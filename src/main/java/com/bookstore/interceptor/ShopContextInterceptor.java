@@ -3,7 +3,6 @@ package com.bookstore.interceptor;
 import com.bookstore.context.ShopContext;
 import com.bookstore.entity.Shop;
 import com.bookstore.service.ShopDetectionService;
-import com.bookstore.repository.ShopRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

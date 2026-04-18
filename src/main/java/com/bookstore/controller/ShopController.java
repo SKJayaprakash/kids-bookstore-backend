@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,9 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private com.bookstore.service.OrderService orderService;
+
     // Public endpoint - get shop by shop number (for customer login - deprecated)
     @GetMapping("/shops/{shopNumber}")
     public ResponseEntity<ShopResponse> getShopByNumber(@PathVariable String shopNumber) {
@@ -31,6 +35,16 @@ public class ShopController {
     @GetMapping("/shops/by-slug/{slug}")
     public ResponseEntity<ShopResponse> getShopBySlug(@PathVariable String slug) {
         Shop shop = shopService.getShopBySlug(slug);
+        return ResponseEntity.ok(toShopResponse(shop));
+    }
+
+    // Public endpoint - get metadata for the current shop (detected by URL/Headers)
+    @GetMapping("/public/current")
+    public ResponseEntity<ShopResponse> getCurrentShopMetadata() {
+        Shop shop = com.bookstore.context.ShopContext.getCurrentShop();
+        if (shop == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(toShopResponse(shop));
     }
 
@@ -48,6 +62,36 @@ public class ShopController {
     @GetMapping("/admin/stats")
     public ResponseEntity<Map<String, Object>> getAdminStats() {
         return ResponseEntity.ok(shopService.getAdminStats());
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @GetMapping("/admin/stats/advanced")
+    public ResponseEntity<Map<String, Object>> getAdvancedAdminStats() {
+        return ResponseEntity.ok(orderService.getAdvancedAdminStats());
+    }
+
+    @Autowired
+    private com.bookstore.service.FileStorageService fileStorageService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PostMapping("/admin/repair-s3-acls")
+    public ResponseEntity<Map<String, Object>> repairAcls() {
+        return ResponseEntity.ok(fileStorageService.repairS3Acls());
+    }
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PostMapping("/admin/repair-db-constraints")
+    public ResponseEntity<String> repairDbConstraints() {
+        try {
+            jdbcTemplate.execute("ALTER TABLE books DROP CONSTRAINT IF EXISTS books_age_group_check");
+            jdbcTemplate.execute("ALTER TABLE books ADD CONSTRAINT books_age_group_check CHECK (age_group IN ('BABIES_TODDLERS', 'PRESCHOOL', 'EARLY_READERS', 'MIDDLE_GRADE', 'YOUNG_ADULT', 'ALL_AGES'))");
+            return ResponseEntity.ok("Database constraints repaired successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error repairing database constraints: " + e.getMessage());
+        }
     }
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
@@ -109,9 +153,36 @@ public class ShopController {
 
     @PreAuthorize("hasRole('SHOP_OWNER')")
     @GetMapping("/shop-owner/my-shop")
-    public ResponseEntity<ShopResponse> getMyShop(Authentication authentication) {
-        // TODO: Get shop from authenticated user
-        return ResponseEntity.ok(new ShopResponse());
+    public ResponseEntity<ShopResponse> getMyShop() {
+        Shop shop = com.bookstore.context.ShopContext.getCurrentShop();
+        if (shop == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(toShopResponse(shop));
+    }
+
+    @PreAuthorize("hasRole('SHOP_OWNER')")
+    @PutMapping("/shop-owner/my-shop")
+    public ResponseEntity<ShopResponse> updateMyShop(@RequestBody UpdateShopRequest request) {
+        Shop shop = com.bookstore.context.ShopContext.getCurrentShop();
+        if (shop == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        Shop updated = shopService.updateShopOwnerSettings(
+            shop.getId(),
+            request.getName(),
+            blankToNull(request.getDescription()),
+            blankToNull(request.getPrimaryColor()),
+            blankToNull(request.getLogoUrl())
+        );
+        return ResponseEntity.ok(toShopResponse(updated));
+    }
+
+    @PreAuthorize("hasRole('SHOP_OWNER')")
+    @GetMapping("/stats/advanced")
+    public ResponseEntity<Map<String, Object>> getAdvancedShopStats() {
+        return ResponseEntity.ok(orderService.getAdvancedShopStats());
     }
 
     // Container status polling endpoint

@@ -8,9 +8,16 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://bookstoredb-dev.c1ygoy8q4aqb.ap-southeast-2.rds.amazonaws.com:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: PostgresPassword
-      APP_API_URL: http://localhost:8081/api 
+      APP_API_URL: http://localhost:8081/api
       RAZORPAY_KEY_ID: rzp_test_SRtquGCO8OYX1j
       RAZORPAY_KEY_SECRET: gbNHNI2mjEWXqWhhuzf8FVby
+      AWS_S3_BUCKET: aws-s3-backend-images
+      AWS_ACCESS_KEY_ID: AKIAQ74FBIONDHYJEOFQ
+      AWS_SECRET_ACCESS_KEY: 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
+      AWS_REGION: ap-southeast-2
+      SES_USERNAME: AKIAQ74FBIONLZA34OC3
+      SES_PASSWORD: BJfhjlPpkt/IGLXfpOhFxy8Fy9O7//sD1hIsFgbS5V1R
+      SPRING_MAIL_FROM: sjayaprakashsk@gmail.com
     volumes:
       - uploads_data:/uploads
     networks:

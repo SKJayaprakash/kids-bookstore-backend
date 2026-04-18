@@ -42,6 +42,12 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", "JSON mapping error: " + ex.getMessage()));
     }
 
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<Map<String, String>> handleAccessDenied(org.springframework.security.access.AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", "Access Denied: You do not have permission to perform this action."));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAll(Exception ex) {
         ex.printStackTrace();

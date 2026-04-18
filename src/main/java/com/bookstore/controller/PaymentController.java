@@ -51,7 +51,7 @@ public class PaymentController {
         response.put("keyId", keyId);
 
         // Update internal order status to PAYMENT_PENDING
-        orderService.updateOrderStatus(orderId, OrderStatus.PAYMENT_PENDING.name());
+        orderService.updateOrderStatus(orderId, OrderStatus.PAYMENT_PENDING.name(), null, null);
 
         return ResponseEntity.ok(response);
     }
@@ -72,7 +72,7 @@ public class PaymentController {
             boolean isValid = Utils.verifyPaymentSignature(options, keySecret);
 
             if (isValid) {
-                orderService.updateOrderStatus(internalOrderId, OrderStatus.PAYMENT_COMPLETED.name());
+                orderService.updateOrderStatus(internalOrderId, OrderStatus.PAYMENT_COMPLETED.name(), null, null);
                 Map<String, String> response = new HashMap<>();
                 response.put("status", "success");
                 return ResponseEntity.ok(response);

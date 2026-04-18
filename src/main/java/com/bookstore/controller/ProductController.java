@@ -24,6 +24,9 @@ public class ProductController {
     @Autowired
     private FileStorageService fileStorageService;
 
+    @Autowired
+    private com.bookstore.service.InstagramService instagramService;
+
     @GetMapping
     public Page<Book> getAllBooks(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -44,7 +47,7 @@ public class ProductController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SHOP_OWNER')")
-    public ResponseEntity<Book> createBook(
+    public ResponseEntity<?> createBook(
             @RequestParam("title") String title,
             @RequestParam("author") String author,
             @RequestParam("description") String description,
@@ -52,7 +55,9 @@ public class ProductController {
             @RequestParam("stock") Integer stock,
             @RequestParam("category") String category,
             @RequestParam("ageGroup") com.bookstore.enums.AgeGroup ageGroup,
-            @RequestParam(value = "image", required = false) MultipartFile image) {
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "postToInstagram", required = false, defaultValue = "false") boolean postToInstagram,
+            @RequestParam(value = "instagramCaption", required = false) String instagramCaption) {
 
         Book book = new Book();
         book.setTitle(title);
@@ -68,7 +73,26 @@ public class ProductController {
             book.setImageUrl(imageUrl);
         }
 
-        return ResponseEntity.ok(bookService.saveBook(book));
+        Book savedBook = bookService.saveBook(book);
+
+        // Post to Instagram if requested
+        String instagramMessage = null;
+        if (postToInstagram) {
+            try {
+                instagramService.publishBookPost(savedBook, instagramCaption);
+                instagramMessage = "Posted to Instagram successfully!";
+            } catch (Exception e) {
+                instagramMessage = "Book saved, but Instagram post failed: " + e.getMessage();
+            }
+        }
+
+        if (instagramMessage != null) {
+            return ResponseEntity.ok(java.util.Map.of(
+                    "book", savedBook,
+                    "instagramMessage", instagramMessage
+            ));
+        }
+        return ResponseEntity.ok(savedBook);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

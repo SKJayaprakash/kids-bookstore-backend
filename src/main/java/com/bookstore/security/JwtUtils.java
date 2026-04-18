@@ -38,12 +38,22 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(JwtUtils.class);
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(authToken);
             return true;
-        } catch (JwtException e) {
-            // log error
+        } catch (io.jsonwebtoken.security.SignatureException e) {
+            logger.error("Invalid JWT signature: {}", e.getMessage());
+        } catch (io.jsonwebtoken.MalformedJwtException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            logger.error("JWT token is expired: {}", e.getMessage());
+        } catch (io.jsonwebtoken.UnsupportedJwtException e) {
+            logger.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
     }

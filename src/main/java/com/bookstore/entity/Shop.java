@@ -48,6 +48,16 @@ public class Shop {
     private Integer containerPort;
     private String containerStatus; // BUILDING, RUNNING, STOPPED, FAILED
 
+    // Instagram Integration
+    private String instagramAppId;
+    @Column(length = 500)
+    private String instagramAppSecret;
+    @Column(length = 1000)
+    private String instagramAccessToken;
+    private String instagramUserId;
+    private String instagramUsername;
+    private LocalDateTime instagramTokenExpiry;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     @lombok.ToString.Exclude

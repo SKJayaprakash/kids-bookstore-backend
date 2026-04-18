@@ -29,6 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
+            logger.error("DIAGNOSTIC - Request URI: " + request.getRequestURI() + ", Method: " + request.getMethod() + ", JWT parsed: " + (jwt != null ? "Present" : "NULL"));
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
@@ -50,6 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
+        logger.error("DIAGNOSTIC - RAW Authorization Header: " + headerAuth);
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);

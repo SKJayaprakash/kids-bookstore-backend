@@ -1,0 +1,4 @@
+com/bookstore/entity/User.class
+com/bookstore/entity/Shop.class
+com/bookstore/repository/ShopRepository.class
+com/bookstore/entity/Book.class

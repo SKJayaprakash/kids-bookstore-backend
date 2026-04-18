@@ -49,24 +49,34 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    RequestLoggingFilter requestLoggingFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .cors(org.springframework.security.config.Customizer.withDefaults())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"" + authException.getMessage() + "\"}");
+                }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/products/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/shops/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/reviews/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/products/**", "/api/products").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/shops/shops/**", "/api/shops/public/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/reviews/**", "/api/reviews").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/instagram/callback").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/orders").permitAll()
                         .requestMatchers("/api/payments/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());
+        http.addFilterBefore(requestLoggingFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
