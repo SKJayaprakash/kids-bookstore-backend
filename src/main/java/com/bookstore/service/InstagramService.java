@@ -288,8 +288,18 @@ public class InstagramService {
         // We cannot use our EC2 proxy because it is HTTP (port 8081), and Meta strictly requires HTTPS.
         // We cannot use pre-signed URLs because Meta mangles the signature query parameters.
         // Since FileStorageService uploads with PublicRead ACL, the direct HTTPS URL should work perfectly!
+        // We use an incredibly robust global image processing CDN (weserv.nl)
+        // to guarantee three strict Instagram API requirements:
+        // 1. Format MUST be JPEG (&output=jpg)
+        // 2. Width MUST be <= 1920px (&w=1080)
+        // 3. Reliable HTTPS delivery that Meta scraper trusts
         String imageUrl = book.getImageUrl();
-        logger.info("DIAG - Image URL sent to Meta (Direct S3): {}", imageUrl);
+        if (imageUrl != null && imageUrl.startsWith("https://")) {
+            // Remove the 'https://' prefix for Weserv
+            String urlStripped = imageUrl.substring(8);
+            imageUrl = "https://images.weserv.nl/?url=" + urlStripped + "&w=1080&output=jpg";
+            logger.info("DIAG - Transformed Image URL for Meta (Resized/JPEG): {}", imageUrl);
+        }
 
         if (imageUrl == null || imageUrl.isEmpty()) {
             throw new RuntimeException("Book must have an image to post to Instagram");
