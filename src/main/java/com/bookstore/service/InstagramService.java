@@ -1,5 +1,6 @@
 package com.bookstore.service;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Shop;
 import com.bookstore.repository.ShopRepository;
@@ -30,6 +31,12 @@ public class InstagramService {
 
     @Value("${app.public.url}")
     private String publicApiUrl;
+
+    @Autowired
+    private AmazonS3 s3Client;
+
+    @Value("${aws.s3.bucket-name}")
+    private String bucketName;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -283,33 +290,22 @@ public class InstagramService {
                 ? customCaption 
                 : buildCaption(book, shop);
 
-        // Transform S3 URL to Proxy URL to bypass Meta's S3 domain block
+        // Generate a pre-signed S3 URL for Meta to fetch the image.
+        // Meta requires HTTPS and standard ports — a pre-signed URL satisfies both.
         String imageUrl = book.getImageUrl();
         if (imageUrl != null && imageUrl.contains("amazonaws.com")) {
             try {
-                // Extract S3 key from URL
-                // Example: https://bucket.s3.region.amazonaws.com/shops/slug/uuid_name.png
                 String s3Key = imageUrl.substring(imageUrl.indexOf(".com/") + 5);
                 
-                // Construct proxy URL. 
-                // We use the backend's public URL from application.properties.
-                // Meta NEEDS a publicly reachable domain here.
-                String baseUrl = publicApiUrl;
+                // Generate a pre-signed URL valid for 1 hour
+                java.util.Date expiration = new java.util.Date(System.currentTimeMillis() + 3600 * 1000);
+                java.net.URL presignedUrl = s3Client.generatePresignedUrl(bucketName, s3Key, expiration);
+                imageUrl = presignedUrl.toString();
                 
-                // If the URL is still localhost, it won't work for Meta. Force the EC2 URL if detected.
-                if (baseUrl.contains("localhost")) {
-                    logger.warn("DIAG - Alert! app.public.url is set to localhost. Meta will likely fail to fetch the image.");
-                }
-                
-                // Construct the final proxy URL
-                if (!baseUrl.endsWith("/api")) {
-                    baseUrl = baseUrl.endsWith("/") ? baseUrl + "api" : baseUrl + "/api";
-                }
-                
-                imageUrl = baseUrl + "/public/images/s3/" + s3Key;
-                logger.info("DIAG - Image URL sent to Meta: {}", imageUrl);
+                logger.info("DIAG - Generated pre-signed S3 URL for Meta (key: {})", s3Key);
             } catch (Exception e) {
-                logger.error("DIAG ERROR - Failed to transform S3 URL: {}", e.getMessage());
+                logger.error("DIAG ERROR - Failed to generate pre-signed URL: {}. Falling back to original URL.", e.getMessage());
+                // Keep the original imageUrl as fallback
             }
         }
 
