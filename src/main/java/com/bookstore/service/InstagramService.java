@@ -309,19 +309,24 @@ public class InstagramService {
         }
 
         // Step 1: Create media container
+        // We strictly use LinkedMultiValueMap so RestTemplate sends the request as 
+        // application/x-www-form-urlencoded. FB Graph API has known bugs parsing JSON image_url.
         String createUrl = GRAPH_FB_BASE + "/" + igUserId + "/media";
-        Map<String, String> createPayload = Map.of(
-                "image_url", imageUrl,
-                "caption", caption,
-                "access_token", accessToken
-        );
+        org.springframework.util.MultiValueMap<String, String> createPayload = new org.springframework.util.LinkedMultiValueMap<>();
+        createPayload.add("image_url", imageUrl);
+        createPayload.add("caption", caption);
+        createPayload.add("access_token", accessToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<org.springframework.util.MultiValueMap<String, String>> createRequest = new HttpEntity<>(createPayload, headers);
 
         logger.info("DIAG - Attempting to create IG media container. URL: {}, Image: {}", createUrl, imageUrl);
         
         String creationId;
         try {
             ResponseEntity<Map<String, Object>> createResponse = restTemplate.exchange(
-                    createUrl, HttpMethod.POST, new HttpEntity<>(createPayload),
+                    createUrl, HttpMethod.POST, createRequest,
                     new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
             Map<String, Object> createBody = createResponse.getBody();
 
@@ -339,16 +344,17 @@ public class InstagramService {
 
         // Step 2: Publish the container
         String publishUrl = GRAPH_FB_BASE + "/" + igUserId + "/media_publish";
-        Map<String, String> publishPayload = Map.of(
-                "creation_id", creationId,
-                "access_token", accessToken
-        );
+        org.springframework.util.MultiValueMap<String, String> publishPayload = new org.springframework.util.LinkedMultiValueMap<>();
+        publishPayload.add("creation_id", creationId);
+        publishPayload.add("access_token", accessToken);
+        
+        HttpEntity<org.springframework.util.MultiValueMap<String, String>> publishRequest = new HttpEntity<>(publishPayload, headers);
 
         logger.info("DIAG - Attempting to publish IG container: {}", creationId);
 
         try {
             ResponseEntity<Map<String, Object>> publishResponse = restTemplate.exchange(
-                    publishUrl, HttpMethod.POST, new HttpEntity<>(publishPayload),
+                    publishUrl, HttpMethod.POST, publishRequest,
                     new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
             Map<String, Object> publishBody = publishResponse.getBody();
 
