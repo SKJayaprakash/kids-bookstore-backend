@@ -270,6 +270,10 @@ public class InstagramService {
     /**
      * Publish a book as an Instagram post (two-step container-based publishing)
      */
+    /**
+     * Publish a book as an Instagram post. 
+     * Uses Carousel format if multiple images are available, otherwise single image.
+     */
     public Map<String, Object> publishBookPost(Book book, String customCaption) {
         Shop shop = book.getShop();
         if (shop == null || shop.getInstagramAccessToken() == null) {
@@ -279,116 +283,143 @@ public class InstagramService {
         String accessToken = shop.getInstagramAccessToken();
         String igUserId = shop.getInstagramUserId();
 
-        // Build the caption (use custom if provided, otherwise default)
         String caption = (customCaption != null && !customCaption.trim().isEmpty()) 
                 ? customCaption 
                 : buildCaption(book, shop);
 
-        // Give Meta the direct S3 HTTPS URL.
-        // We cannot use our EC2 proxy because it is HTTP (port 8081), and Meta strictly requires HTTPS.
-        // We cannot use pre-signed URLs because Meta mangles the signature query parameters.
-        // Since FileStorageService uploads with PublicRead ACL, the direct HTTPS URL should work perfectly!
-        // Convert the S3 URL to use AWS Dualstack (IPv4 + IPv6).
-        // Facebook's scraping infrastructure is heavily IPv6-first and frequently fails silently
-        // on standard AWS S3 IPv4 endpoints in certain regions.
-        // Format: https://bucket-name.s3.dualstack.region.amazonaws.com/key
-        String imageUrl = book.getImageUrl();
-        if (imageUrl != null && imageUrl.contains(".s3.") && imageUrl.startsWith("https://")) {
-            try {
-                imageUrl = imageUrl.replaceFirst("\\.s3\\.", ".s3.dualstack.");
-                logger.info("DIAG - Transformed Image URL for Meta (Dualstack Protocol): {}", imageUrl);
-            } catch (Exception e) {
-                logger.error("DIAG ERROR - Failed to format S3 Dualstack URL: {}", e.getMessage());
+        java.util.List<String> imageUrls = new java.util.ArrayList<>();
+        if (book.getImageUrl() != null) {
+            imageUrls.add(transformToDualstack(book.getImageUrl()));
+        }
+        
+        if (book.getAdditionalImages() != null) {
+            for (String img : book.getAdditionalImages()) {
+                imageUrls.add(transformToDualstack(img));
             }
         }
 
-        if (imageUrl == null || imageUrl.isEmpty()) {
-            throw new RuntimeException("Book must have an image to post to Instagram");
+        if (imageUrls.isEmpty()) {
+            throw new RuntimeException("Book must have at least one image to post to Instagram");
         }
 
-        // Step 1: Create media container
-        // We strictly use LinkedMultiValueMap so RestTemplate sends the request as 
-        // application/x-www-form-urlencoded. FB Graph API has known bugs parsing JSON image_url.
+        if (imageUrls.size() == 1) {
+            return publishSingleImage(igUserId, imageUrls.get(0), caption, accessToken);
+        } else {
+            return publishCarousel(igUserId, imageUrls, caption, accessToken);
+        }
+    }
+
+    private String transformToDualstack(String url) {
+        if (url != null && url.contains(".s3.") && url.startsWith("https://")) {
+            return url.replaceFirst("\\.s3\\.", ".s3.dualstack.");
+        }
+        return url;
+    }
+
+    private Map<String, Object> publishSingleImage(String igUserId, String imageUrl, String caption, String accessToken) {
+        String creationId = createMediaContainer(igUserId, imageUrl, caption, null, accessToken);
+        return finalizePublish(igUserId, creationId, accessToken);
+    }
+
+    private Map<String, Object> publishCarousel(String igUserId, java.util.List<String> imageUrls, String caption, String accessToken) {
+        java.util.List<String> childIds = new java.util.ArrayList<>();
+        
+        // Step 1: Create child containers (up to 10 allowed by IG)
+        int count = 0;
+        for (String url : imageUrls) {
+            if (count >= 10) break; 
+            logger.info("DIAG - Creating child container for carousel image {}: {}", count + 1, url);
+            childIds.add(createMediaContainer(igUserId, url, null, true, accessToken));
+            count++;
+        }
+
+        // Step 2: Create Carousel container
         String createUrl = GRAPH_FB_BASE + "/" + igUserId + "/media";
-        org.springframework.util.MultiValueMap<String, String> createPayload = new org.springframework.util.LinkedMultiValueMap<>();
-        createPayload.add("image_url", imageUrl);
-        createPayload.add("caption", caption);
-        createPayload.add("access_token", accessToken);
+        org.springframework.util.MultiValueMap<String, String> payload = new org.springframework.util.LinkedMultiValueMap<>();
+        payload.add("media_type", "CAROUSEL");
+        payload.add("caption", caption);
+        payload.add("children", String.join(",", childIds));
+        payload.add("access_token", accessToken);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<org.springframework.util.MultiValueMap<String, String>> createRequest = new HttpEntity<>(createPayload, headers);
+        HttpEntity<org.springframework.util.MultiValueMap<String, String>> request = new HttpEntity<>(payload, headers);
 
-        logger.info("DIAG - Attempting to create IG media container. URL: {}, Image: {}", createUrl, imageUrl);
+        logger.info("DIAG - Creating Carousel parent container with {} children", childIds.size());
         
-        String creationId;
         try {
-            ResponseEntity<Map<String, Object>> createResponse = restTemplate.exchange(
-                    createUrl, HttpMethod.POST, createRequest,
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    createUrl, HttpMethod.POST, request,
                     new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
-            Map<String, Object> createBody = createResponse.getBody();
-
-            if (createBody == null || !createBody.containsKey("id")) {
-                logger.error("DIAG ERROR - Failed to create IG media container. Response: {}", createBody);
-                throw new RuntimeException("Failed to create Instagram media container");
+            Map<String, Object> body = response.getBody();
+            if (body == null || !body.containsKey("id")) {
+                throw new RuntimeException("Failed to create IG carousel container");
             }
-            creationId = (String) createBody.get("id");
-            logger.info("DIAG - IG media container created with ID: {}", creationId);
+            String carouselId = (String) body.get("id");
+            return finalizePublish(igUserId, carouselId, accessToken);
         } catch (org.springframework.web.client.HttpClientErrorException e) {
-            logger.error("DIAG ERROR - HTTP Failure during IG container creation. Status: {}, Body: {}", 
-                e.getStatusCode(), e.getResponseBodyAsString());
-            throw new RuntimeException("Instagram API Error: " + e.getResponseBodyAsString());
+            logger.error("DIAG ERROR - Carousel creation failed. Body: {}", e.getResponseBodyAsString());
+            throw new RuntimeException("Instagram Carousel Error: " + e.getResponseBodyAsString());
         }
+    }
 
-        // Step 2: Publish the container
-        String publishUrl = GRAPH_FB_BASE + "/" + igUserId + "/media_publish";
-        org.springframework.util.MultiValueMap<String, String> publishPayload = new org.springframework.util.LinkedMultiValueMap<>();
-        publishPayload.add("creation_id", creationId);
-        publishPayload.add("access_token", accessToken);
-        
-        HttpEntity<org.springframework.util.MultiValueMap<String, String>> publishRequest = new HttpEntity<>(publishPayload, headers);
+    private String createMediaContainer(String igUserId, String imageUrl, String caption, Boolean isCarouselItem, String accessToken) {
+        String createUrl = GRAPH_FB_BASE + "/" + igUserId + "/media";
+        org.springframework.util.MultiValueMap<String, String> payload = new org.springframework.util.LinkedMultiValueMap<>();
+        payload.add("image_url", imageUrl);
+        if (caption != null) payload.add("caption", caption);
+        if (isCarouselItem != null && isCarouselItem) payload.add("is_carousel_item", "true");
+        payload.add("access_token", accessToken);
 
-        logger.info("DIAG - Attempting to publish IG container: {}", creationId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<org.springframework.util.MultiValueMap<String, String>> request = new HttpEntity<>(payload, headers);
 
         try {
-            ResponseEntity<Map<String, Object>> publishResponse = restTemplate.exchange(
-                    publishUrl, HttpMethod.POST, publishRequest,
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    createUrl, HttpMethod.POST, request,
                     new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
-            Map<String, Object> publishBody = publishResponse.getBody();
+            Map<String, Object> body = response.getBody();
+            if (body == null || !body.containsKey("id")) {
+                throw new RuntimeException("Failed to create IG media container");
+            }
+            return (String) body.get("id");
+        } catch (org.springframework.web.client.HttpClientErrorException e) {
+            logger.error("DIAG ERROR - Media container creation failed. Body: {}", e.getResponseBodyAsString());
+            throw new RuntimeException("Instagram Media API Error: " + e.getResponseBodyAsString());
+        }
+    }
 
-            if (publishBody == null || !publishBody.containsKey("id")) {
-                logger.error("DIAG ERROR - Failed to publish IG post. Response: {}", publishBody);
+    private Map<String, Object> finalizePublish(String igUserId, String creationId, String accessToken) {
+        String publishUrl = GRAPH_FB_BASE + "/" + igUserId + "/media_publish";
+        org.springframework.util.MultiValueMap<String, String> payload = new org.springframework.util.LinkedMultiValueMap<>();
+        payload.add("creation_id", creationId);
+        payload.add("access_token", accessToken);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<org.springframework.util.MultiValueMap<String, String>> request = new HttpEntity<>(payload, headers);
+
+        logger.info("DIAG - Finalizing publication for container: {}", creationId);
+
+        try {
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    publishUrl, HttpMethod.POST, request,
+                    new org.springframework.core.ParameterizedTypeReference<Map<String, Object>>() {});
+            Map<String, Object> body = response.getBody();
+
+            if (body == null || !body.containsKey("id")) {
                 throw new RuntimeException("Failed to publish Instagram post");
             }
 
-            String mediaId = (String) publishBody.get("id");
-            logger.info("DIAG SUCCESS - Instagram post published! Media ID: {}", mediaId);
-
+            String mediaId = (String) body.get("id");
             return Map.of(
                     "success", true,
                     "mediaId", mediaId,
                     "message", "Posted to Instagram successfully!"
             );
         } catch (org.springframework.web.client.HttpClientErrorException e) {
-            String errorBody = e.getResponseBodyAsString();
-            logger.error("DIAG ERROR - Meta rejected the publish request. Status: {}, Response: {}", 
-                e.getStatusCode(), errorBody);
-            
-            String friendlyError = "Instagram Error: ";
-            if (errorBody.contains("The image could not be loaded")) {
-                friendlyError += "Instagram couldn't download your image. Please check if port 8081 is open on your EC2 and your Public URL is correct.";
-            } else if (errorBody.contains("The business is restricted")) {
-                friendlyError += "Your Facebook/Instagram account has restrictions. Check your Meta Account Quality page.";
-            } else if (errorBody.contains("access token")) {
-                friendlyError += "Connection expired. Please disconnect and reconnect Instagram.";
-            } else {
-                friendlyError += errorBody;
-            }
-            
-            throw new RuntimeException(friendlyError);
-        } catch (Exception e) {
-            logger.error("DIAG ERROR - Unexpected failure during IG publish: {}", e.getMessage());
-            throw new RuntimeException("Unexpected error: " + e.getMessage());
+            throw new RuntimeException("Instagram Publish Error: " + e.getResponseBodyAsString());
         }
     }
 

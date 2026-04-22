@@ -160,7 +160,13 @@ public class OrderService {
     public Map<String, Object> getAdvancedShopStats() {
         Shop currentShop = com.bookstore.context.ShopContext.getCurrentShop();
         if (currentShop == null) {
-            return Map.of("salesTrends", List.of(), "topSellingBooks", List.of(), "lowStockBooks", List.of());
+            return Map.of(
+                "salesTrends", List.of(), 
+                "topSellingBooks", List.of(), 
+                "lowStockBooks", List.of(),
+                "customerDensity", List.of(),
+                "categoryPerformance", List.of()
+            );
         }
 
         Long shopId = currentShop.getId();
@@ -236,10 +242,55 @@ public class OrderService {
                 })
                 .collect(java.util.stream.Collectors.toList());
 
+        // 4. Customer Density (Geographic - by City)
+        Map<String, Integer> cityStats = new java.util.HashMap<>();
+        orders.stream()
+                .filter(o -> o.getStatus() == OrderStatus.PAYMENT_COMPLETED || o.getStatus() == OrderStatus.DELIVERED)
+                .filter(o -> o.getShippingAddress() != null && o.getShippingAddress().getCity() != null)
+                .forEach(o -> {
+                    String city = o.getShippingAddress().getCity();
+                    cityStats.put(city, cityStats.getOrDefault(city, 0) + 1);
+                });
+
+        List<Map<String, Object>> customerDensity = cityStats.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .map(e -> {
+                    Map<String, Object> m = new java.util.HashMap<>();
+                    m.put("city", e.getKey());
+                    m.put("count", e.getValue());
+                    return m;
+                })
+                .collect(java.util.stream.Collectors.toList());
+
+        // 5. Category Performance (Revenue by Category)
+        Map<String, Double> categoryRevenue = new java.util.HashMap<>();
+        orders.stream()
+                .filter(o -> o.getStatus() == OrderStatus.PAYMENT_COMPLETED || o.getStatus() == OrderStatus.DELIVERED)
+                .flatMap(o -> o.getItems().stream())
+                .forEach(item -> {
+                    String category = item.getBook().getCategory();
+                    if (category == null) category = "Uncategorized";
+                    double revenue = item.getPrice().doubleValue() * item.getQuantity();
+                    categoryRevenue.put(category, categoryRevenue.getOrDefault(category, 0.0) + revenue);
+                });
+
+        List<Map<String, Object>> categoryPerformance = categoryRevenue.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .map(e -> {
+                    Map<String, Object> m = new java.util.HashMap<>();
+                    m.put("category", e.getKey());
+                    m.put("revenue", Math.round(e.getValue() * 100.0) / 100.0);
+                    return m;
+                })
+                .collect(java.util.stream.Collectors.toList());
+
         return Map.of(
                 "salesTrends", salesTrends,
                 "topSellingBooks", topSellingBooks,
-                "lowStockBooks", lowStockBooks
+                "lowStockBooks", lowStockBooks,
+                "customerDensity", customerDensity,
+                "categoryPerformance", categoryPerformance
         );
     }
 

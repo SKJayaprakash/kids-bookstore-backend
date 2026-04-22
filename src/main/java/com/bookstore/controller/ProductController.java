@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Sort;
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -56,6 +57,7 @@ public class ProductController {
             @RequestParam("category") String category,
             @RequestParam("ageGroup") com.bookstore.enums.AgeGroup ageGroup,
             @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "additionalImages", required = false) List<MultipartFile> additionalImages,
             @RequestParam(value = "postToInstagram", required = false, defaultValue = "false") boolean postToInstagram,
             @RequestParam(value = "instagramCaption", required = false) String instagramCaption) {
 
@@ -71,6 +73,14 @@ public class ProductController {
         if (image != null && !image.isEmpty()) {
             String imageUrl = fileStorageService.storeFile(image);
             book.setImageUrl(imageUrl);
+        }
+
+        if (additionalImages != null && !additionalImages.isEmpty()) {
+            for (MultipartFile file : additionalImages) {
+                if (!file.isEmpty()) {
+                    book.getAdditionalImages().add(fileStorageService.storeFile(file));
+                }
+            }
         }
 
         Book savedBook = bookService.saveBook(book);
@@ -106,7 +116,8 @@ public class ProductController {
             @RequestParam("stock") Integer stock,
             @RequestParam("category") String category,
             @RequestParam("ageGroup") com.bookstore.enums.AgeGroup ageGroup,
-            @RequestParam(value = "image", required = false) MultipartFile image) {
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "additionalImages", required = false) List<MultipartFile> additionalImages) {
 
         Book existingBook = bookService.getBookById(id);
         if (existingBook == null) {
@@ -125,8 +136,17 @@ public class ProductController {
             String imageUrl = fileStorageService.storeFile(image);
             existingBook.setImageUrl(imageUrl);
         }
-        // If image is null or empty, we assume the existing image URL should be kept
-        // unless a specific mechanism for removal is implemented.
+
+        if (additionalImages != null && !additionalImages.isEmpty()) {
+            // Keep old ones or replace? Usually for simple edit we replace if new ones provided.
+            // But let's append for now to be safe, or clear if specified.
+            // Simplified: Add new ones.
+            for (MultipartFile file : additionalImages) {
+                if (!file.isEmpty()) {
+                    existingBook.getAdditionalImages().add(fileStorageService.storeFile(file));
+                }
+            }
+        }
 
         return ResponseEntity.ok(bookService.saveBook(existingBook));
     }

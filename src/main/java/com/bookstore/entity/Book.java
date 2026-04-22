@@ -35,7 +35,7 @@ public class Book {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> additionalImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
