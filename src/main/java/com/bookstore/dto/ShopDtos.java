@@ -13,6 +13,7 @@ public class ShopDtos {
         private String email;
         private String primaryColor;
         private String logoUrl;
+        private String themePreset;
 
         public String getShopNumber() { return shopNumber; }
         public void setShopNumber(String shopNumber) { this.shopNumber = shopNumber; }
@@ -34,6 +35,8 @@ public class ShopDtos {
         public void setPrimaryColor(String primaryColor) { this.primaryColor = primaryColor; }
         public String getLogoUrl() { return logoUrl; }
         public void setLogoUrl(String logoUrl) { this.logoUrl = logoUrl; }
+        public String getThemePreset() { return themePreset; }
+        public void setThemePreset(String themePreset) { this.themePreset = themePreset; }
     }
 
     public static class UpdateShopRequest {
@@ -47,6 +50,7 @@ public class ShopDtos {
         private Boolean active;
         private String primaryColor;
         private String logoUrl;
+        private String themePreset;
         
         private String whatsappAccessToken;
         private String whatsappPhoneNumberId;
@@ -72,6 +76,8 @@ public class ShopDtos {
         public void setPrimaryColor(String primaryColor) { this.primaryColor = primaryColor; }
         public String getLogoUrl() { return logoUrl; }
         public void setLogoUrl(String logoUrl) { this.logoUrl = logoUrl; }
+        public String getThemePreset() { return themePreset; }
+        public void setThemePreset(String themePreset) { this.themePreset = themePreset; }
         public String getWhatsappAccessToken() { return whatsappAccessToken; }
         public void setWhatsappAccessToken(String whatsappAccessToken) { this.whatsappAccessToken = whatsappAccessToken; }
         public String getWhatsappPhoneNumberId() { return whatsappPhoneNumberId; }
@@ -95,6 +101,7 @@ public class ShopDtos {
         private String ownerName;
         private String primaryColor;
         private String logoUrl;
+        private String themePreset;
         private String containerStatus;
         private Integer containerPort;
         
@@ -130,6 +137,8 @@ public class ShopDtos {
         public void setPrimaryColor(String primaryColor) { this.primaryColor = primaryColor; }
         public String getLogoUrl() { return logoUrl; }
         public void setLogoUrl(String logoUrl) { this.logoUrl = logoUrl; }
+        public String getThemePreset() { return themePreset; }
+        public void setThemePreset(String themePreset) { this.themePreset = themePreset; }
         public String getContainerStatus() { return containerStatus; }
         public void setContainerStatus(String containerStatus) { this.containerStatus = containerStatus; }
         public Integer getContainerPort() { return containerPort; }

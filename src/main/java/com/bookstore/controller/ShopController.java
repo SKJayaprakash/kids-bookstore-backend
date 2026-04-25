@@ -108,6 +108,7 @@ public class ShopController {
         shop.setEmail(request.getEmail());
         shop.setPrimaryColor(blankToNull(request.getPrimaryColor()));
         shop.setLogoUrl(blankToNull(request.getLogoUrl()));
+        shop.setThemePreset(blankToNull(request.getThemePreset()));
 
         Shop created = shopService.createShop(shop);
         // Container provisioning is now done manually — no auto-Docker on shop create
@@ -129,6 +130,7 @@ public class ShopController {
         shop.setEmail(request.getEmail());
         shop.setPrimaryColor(blankToNull(request.getPrimaryColor()));
         shop.setLogoUrl(blankToNull(request.getLogoUrl()));
+        shop.setThemePreset(blankToNull(request.getThemePreset()));
         if (request.getActive() != null) {
             shop.setActive(request.getActive());
         }
@@ -175,6 +177,7 @@ public class ShopController {
             blankToNull(request.getDescription()),
             blankToNull(request.getPrimaryColor()),
             blankToNull(request.getLogoUrl()),
+            blankToNull(request.getThemePreset()),
             blankToNull(request.getWhatsappAccessToken()),
             blankToNull(request.getWhatsappPhoneNumberId()),
             blankToNull(request.getWhatsappOrderTemplateName())
@@ -213,6 +216,7 @@ public class ShopController {
         response.setActive(shop.isActive());
         response.setPrimaryColor(shop.getPrimaryColor());
         response.setLogoUrl(shop.getLogoUrl());
+        response.setThemePreset(shop.getThemePreset());
         response.setContainerStatus(shop.getContainerStatus());
         response.setContainerPort(shop.getContainerPort());
         

@@ -39,6 +39,7 @@ public class Shop {
     // Branding
     private String primaryColor; // e.g. "#e91e63"
     private String logoUrl;
+    private String themePreset = "emerald"; // sapphire, emerald, lavender, etc.
 
     // Container lifecycle
     private String containerId;
@@ -127,6 +128,9 @@ public class Shop {
 
     public String getLogoUrl() { return logoUrl; }
     public void setLogoUrl(String logoUrl) { this.logoUrl = logoUrl; }
+
+    public String getThemePreset() { return themePreset; }
+    public void setThemePreset(String themePreset) { this.themePreset = themePreset; }
 
     public String getContainerId() { return containerId; }
     public void setContainerId(String containerId) { this.containerId = containerId; }
